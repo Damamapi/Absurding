@@ -8,30 +8,31 @@ public class InputReceiverHandler : MonoBehaviour
     public GameObject receiverLeft;
     public GameObject receiverRight;
 
-    private GameControls gameControls;
+    private Inputs inputs; // Use the correct class name here
 
     private void Awake()
     {
-        gameControls = new GameControls();
+        inputs = new Inputs(); // And here
 
-        gameControls.Gameplay.P1L.performed += _ => ChangeColor(receiverA, Color.green);
-        gameControls.Gameplay.P1R.performed += _ => ChangeColor(receiverD, Color.red);
-        gameControls.Gameplay.P2L.performed += _ => ChangeColor(receiverLeft, Color.blue);
-        gameControls.Gameplay.P2R.performed += _ => ChangeColor(receiverRight, Color.yellow);
+        inputs.Gameplay.P1L.performed += _ => ChangeColor(receiverA, Color.green);
+        inputs.Gameplay.P1R.performed += _ => ChangeColor(receiverD, Color.red);
+        inputs.Gameplay.P2L.performed += _ => ChangeColor(receiverLeft, Color.blue);
+        inputs.Gameplay.P2R.performed += _ => ChangeColor(receiverRight, Color.yellow);
     }
 
     private void OnEnable()
     {
-        gameControls.Gameplay.Enable();
+        inputs.Gameplay.Enable();
     }
 
     private void OnDisable()
     {
-        gameControls.Gameplay.Disable();
+        inputs.Gameplay.Disable();
     }
 
     private void ChangeColor(GameObject receiver, Color color)
     {
+        // This assumes the receiver has an Image component
         var image = receiver.GetComponent<UnityEngine.UI.Image>();
         if (image != null)
         {

@@ -5,34 +5,35 @@ using UnityEngine.UI;
 
 public class LevelEndings : MonoBehaviour
 {
+    //LevelEndingObj should be set inactive, activate at end of level
+    
     //variables for different endings
     private GameManager gm;
 
+    //level index starts at 0, must match order of minigame level index in build settings
     public int levelIndex;
     [SerializeField] private int levelGrade;
-    [SerializeField] private Image successImage;
-    [SerializeField] private Image failureImage;
-    private Image displayImage;
+    [SerializeField] private Sprite successSprite;
+    [SerializeField] private Sprite failureSprite;
+    [SerializeField] private Image displayImage;
 
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
 
         levelGrade = gm.ReturnGrade(levelIndex);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        SetEnding();
+        SetEndingSprite();
+        displayImage.gameObject.SetActive(true);
     }
 
-    private void SetEnding()
+    //Set sprite based on grade recieved
+    private void SetEndingSprite()
     {
-        if (levelGrade > 1)
+        if (levelGrade > 0)
         {
-            displayImage = successImage;
+            displayImage.sprite = successSprite;
         }
         else
-            displayImage = failureImage;
+            displayImage.sprite = failureSprite;
     }
 }

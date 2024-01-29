@@ -62,6 +62,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""74389c58-039f-4d49-9657-147a805940e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""P2R"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""812645d9-1959-4d1b-a272-231a240794aa"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -126,6 +146,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Gameplay_P1R = m_Gameplay.FindAction("P1R", throwIfNotFound: true);
         m_Gameplay_P2L = m_Gameplay.FindAction("P2L", throwIfNotFound: true);
         m_Gameplay_P2R = m_Gameplay.FindAction("P2R", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -191,6 +212,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_P1R;
     private readonly InputAction m_Gameplay_P2L;
     private readonly InputAction m_Gameplay_P2R;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @Inputs m_Wrapper;
@@ -199,6 +221,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         public InputAction @P1R => m_Wrapper.m_Gameplay_P1R;
         public InputAction @P2L => m_Wrapper.m_Gameplay_P2L;
         public InputAction @P2R => m_Wrapper.m_Gameplay_P2R;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -220,6 +243,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @P2R.started += instance.OnP2R;
             @P2R.performed += instance.OnP2R;
             @P2R.canceled += instance.OnP2R;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -236,6 +262,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @P2R.started -= instance.OnP2R;
             @P2R.performed -= instance.OnP2R;
             @P2R.canceled -= instance.OnP2R;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -268,5 +297,6 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnP1R(InputAction.CallbackContext context);
         void OnP2L(InputAction.CallbackContext context);
         void OnP2R(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

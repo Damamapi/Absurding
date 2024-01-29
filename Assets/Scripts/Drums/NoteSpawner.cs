@@ -79,16 +79,16 @@ public class NoteSpawner : MonoBehaviour
         switch (type)
         {
             case 1:
-                inputHandler.activeNotesA.Add(n);
+                inputHandler.activeNotesA.Add(note);
                 break;
             case 2:
-                inputHandler.activeNotesD.Add(n);
+                inputHandler.activeNotesD.Add(note);
                 break;
             case 3:
-                inputHandler.activeNotesLeft.Add(n);
+                inputHandler.activeNotesLeft.Add(note);
                 break;
             case 4:
-                inputHandler.activeNotesRight.Add(n);
+                inputHandler.activeNotesRight.Add(note);
                 break;
             default:
                 break;

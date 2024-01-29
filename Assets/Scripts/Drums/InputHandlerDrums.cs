@@ -10,10 +10,10 @@ public class InputHandlerDrums : MonoBehaviour
     public GameObject receiverLeft;
     public GameObject receiverRight;
 
-    public List<Note> activeNotesA;
-    public List<Note> activeNotesD;
-    public List<Note> activeNotesLeft;
-    public List<Note> activeNotesRight;
+    public List<GameObject> activeNotesA;
+    public List<GameObject> activeNotesD;
+    public List<GameObject> activeNotesLeft;
+    public List<GameObject> activeNotesRight;
 
     public float hitWindow = 0.2f;
     public float delay = 2.22f;
@@ -40,11 +40,20 @@ public class InputHandlerDrums : MonoBehaviour
         inputs.Gameplay.Disable();
     }
 
-    private void Register(GameObject receiver, List<Note> activeNotes)
+    private void Register(GameObject receiver, List<GameObject> activeNotes)
     {
+        float currentTime = Time.timeSinceLevelLoad;
         receiver.transform.localScale *= 1.2f;
-        StartCoroutine(ReturnToSize(receiver));
 
+        Note n = activeNotes[0].GetComponent<Note>();
+
+        if ( Mathf.Abs(currentTime - n.spawnTime + delay) < hitWindow)
+        {
+
+        }
+
+
+        StartCoroutine(ReturnToSize(receiver));        
     }
 
     private void Update()
@@ -55,13 +64,15 @@ public class InputHandlerDrums : MonoBehaviour
         CheckIfMissed(activeNotesLeft);
     }
 
-    public void CheckIfMissed(List<Note> notes)
+    public void CheckIfMissed(List<GameObject> notes)
     {
+        float currentTime = Time.timeSinceLevelLoad;
         if (notes.Count <= 0) return;
-        if (!notes[0].hasBeenHit && Mathf.Abs(Time.timeSinceLevelLoad - notes[0].spawnTime + delay) > hitWindow)
+        Note n = notes[0].GetComponent<Note>();
+        if (!n.hasBeenHit && (n.spawnTime + delay - currentTime - hitWindow < 0))
         {
-            Debug.Log("Note missed");
-            notes[0].hasBeenHit = true;
+            Debug.Log("Note missed, should have been played at " + (n.spawnTime + delay) + ", it is currently: " + currentTime);
+            n.hasBeenHit = true;
             notes.RemoveAt(0);
         }
     }
